@@ -1,0 +1,25 @@
+<div class="container">
+    <form action="" class="form-group">
+      <div class="form-icon"><figure><img src="../../../assets/images/icons/icon-hour.png" alt=""></figure>Horário</div>
+      <h3>Qual período quer treinar?</h3>
+
+      @for (item of workPeriod; track item) {
+        <div class="radio-wrapper">
+          <input type="radio" name="workPeriod" [value]="item.key">
+          <label [for]="item.key">{{ item.key }}</label>
+          <span>{{ item.value }}</span>
+        </div>
+      }
+
+      <div class="checkbox-wrapper">
+        <input type="checkbox" name="showClosedUnits">
+        <label for="showClosedUnits">Exibir unidades fechadas</label>
+        <span>Resultados encontrados: <strong class="result">{{ results.length }}</strong></span>
+      </div>
+
+      <div class="btns-wrapper">
+        <button class="button button-primary">Encontrar unidade</button>
+        <button class="button button-secondary">Limpar</button>
+      </div>
+    </form>
+</div>

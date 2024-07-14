@@ -1,0 +1,111 @@
+.container {
+  margin-top: 60px;
+
+  .form-group {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 24px;
+
+    border: 2px solid var(--light-text);
+    border-radius: 18px;
+
+    .form-icon {
+      font-size: 16px;
+      color: var(--light-grey);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+
+      img {
+        height: 25px;
+      }
+    }
+
+    h3 {
+      font-size: 24px;
+      color: var(--light-grey);
+      font-weight: 300;
+
+      width: 100%;
+      border-bottom: 1px solid var(--light-text);
+      padding-bottom: 10px;
+    }
+
+    .radio-wrapper {
+      color: var(--light-grey);
+
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+
+      margin-top: 16px;
+
+      width: 100%;
+      border-bottom: 1px solid var(--light-text);
+      padding-bottom: 12px;
+
+      position: relative;
+
+      span {
+        position: absolute;
+        right: 0px;
+      }
+    }
+
+    .checkbox-wrapper {
+      margin: 32px 0;
+      color: var(--dark-grey);
+      position: relative;
+      width: 100%;
+
+      label {
+        margin-left: 10px;
+      }
+
+      span {
+        position: absolute;
+        right: 0;
+
+        .result {
+          font-size: 20px;
+          color: var(--dark-grey);
+        }
+      }
+    }
+
+    .btns-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      gap: 12px;
+
+      .button {
+        font-size: 16px;
+        border-radius: 4px;
+        color: var(--dark-grey);
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 12px;
+        width: 300px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .button-primary {
+        background-color: var(--yellow);
+      }
+
+      .button-secondary {
+        background-color: transparent;
+        border: 2px solid var(--light-text);
+      }
+    }
+  }
+}
