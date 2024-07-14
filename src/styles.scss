@@ -24,6 +24,12 @@ body {
   margin: 0 auto;
 }
 
+@media (max-width: 768px) {
+  .container {
+    max-width: 90%;
+  }
+}
+
 @font-face {
   font-family: 'Gotham';
   src: url('assets/fonts/Gotham/gotham-light.woff2') format('woff2');
