@@ -1,21 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-
-enum TURNOS {
-  MANHA,
-  TARDE,
-  NOITE,
-}
+import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
 })
-export class FormComponent {
-  readonly workPeriod: { key: string; value: string }[] = [
+export class FormComponent implements OnInit {
+  formGroup!: FormGroup;
+  readonly workoutPeriod: { key: string; value: string }[] = [
     {
       key: 'Manhã',
       value: '06:00 às 12:00',
@@ -30,4 +26,17 @@ export class FormComponent {
     },
   ];
   results = [];
+
+  private readonly formBuilder = inject(FormBuilder);
+
+  ngOnInit(): void {
+    this.formGroup = this.formBuilder.group({
+      workoutPeriod: null,
+      showClosedUnits: false,
+    })
+  }
+
+  onSubmit() {
+    console.log(this.formGroup.value)
+  }
 }

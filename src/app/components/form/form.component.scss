@@ -61,17 +61,18 @@
     .checkbox-wrapper {
       margin: 32px 0;
       color: var(--dark-grey);
-      position: relative;
       width: 100%;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
 
       label {
         margin-left: 10px;
       }
 
       span {
-        position: absolute;
-        right: 0;
-
         .result {
           font-size: 20px;
           color: var(--dark-grey);
@@ -83,6 +84,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-wrap: wrap;
       width: 100%;
       gap: 12px;
 
@@ -107,5 +109,14 @@
         border: 2px solid var(--light-text);
       }
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .checkbox-wrapper {
+    display: flex;
+    align-self: center;
+    justify-content: center !important;
+    gap: 12px
   }
 }
