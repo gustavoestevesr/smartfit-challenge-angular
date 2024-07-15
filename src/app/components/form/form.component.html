@@ -5,9 +5,9 @@
 
       @for (item of workoutPeriod; track item) {
         <div class="radio-wrapper">
-          <input type="radio" name="workoutPeriod" [value]="item.key" formControlName="workoutPeriod">
+          <input type="radio" name="workoutPeriod" [value]="item.valueBack" formControlName="workoutPeriod">
           <label [for]="item.key">{{ item.key }}</label>
-          <span>{{ item.value }}</span>
+          <span>{{ item.valueFront }}</span>
         </div>
       }
 
@@ -21,7 +21,7 @@
 
       <div class="btns-wrapper">
         <button class="button button-primary" (click)="onSubmit()">Encontrar unidade</button>
-        <button class="button button-secondary" (click)="formGroup.reset()">Limpar</button>
+        <button class="button button-secondary" (click)="formGroup.reset(); results = [];">Limpar</button>
       </div>
     </form>
 </div>
