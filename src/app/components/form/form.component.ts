@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UnitsService } from '../../services/units.service';
+import { UnitResponse } from '../../models/units-response.model';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-form',
@@ -28,11 +31,18 @@ export class FormComponent implements OnInit {
   results = [];
 
   private readonly formBuilder = inject(FormBuilder);
+  private readonly unitsService = inject(UnitsService);
 
-  ngOnInit(): void {
+  constructor() {
     this.formGroup = this.formBuilder.group({
       workoutPeriod: null,
       showClosedUnits: false,
+    })
+  }
+
+  ngOnInit(): void {
+    this.unitsService.getAll().pipe(take(1)).subscribe((data: UnitResponse) => {
+      console.log(data);
     })
   }
 
