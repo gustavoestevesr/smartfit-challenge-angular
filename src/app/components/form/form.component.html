@@ -16,12 +16,12 @@
           <input type="checkbox" name="showClosedUnits" formControlName="showClosedUnits">
           <label for="showClosedUnits">Exibir unidades fechadas</label>
         </div>
-        <span>Resultados encontrados: <strong class="result">{{ results.length }}</strong></span>
+        <span>Resultados encontrados: <strong class="result">{{ filteredResults.length }}</strong></span>
       </div>
 
       <div class="btns-wrapper">
         <button class="button button-primary" (click)="onSubmit()">Encontrar unidade</button>
-        <button class="button button-secondary" (click)="formGroup.reset(); results = [];">Limpar</button>
+        <button class="button button-secondary" (click)="onClear()">Limpar</button>
       </div>
     </form>
 </div>
