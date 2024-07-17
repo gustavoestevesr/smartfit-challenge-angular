@@ -12,7 +12,5 @@ import { CardUnitComponent } from './card-unit/card-unit.component';
 export class ListUnitsComponent implements OnInit {
   @Input() listOfUnits: Location[] = [];
 
-  ngOnInit(): void {
-   console.log(this.listOfUnits);
-  }
+  ngOnInit(): void {}
 }
