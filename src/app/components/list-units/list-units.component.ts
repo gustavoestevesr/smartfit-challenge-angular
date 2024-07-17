@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Location } from '../../models/units-response.model';
 import { CardUnitComponent } from './card-unit/card-unit.component';
 
@@ -9,8 +9,6 @@ import { CardUnitComponent } from './card-unit/card-unit.component';
   templateUrl: './list-units.component.html',
   styleUrl: './list-units.component.scss'
 })
-export class ListUnitsComponent implements OnInit {
+export class ListUnitsComponent {
   @Input() listOfUnits: Location[] = [];
-
-  ngOnInit(): void {}
 }
