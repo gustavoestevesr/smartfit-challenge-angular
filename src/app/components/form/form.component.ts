@@ -79,13 +79,15 @@ export class FormComponent {
   onSubmit() {
     const showClosedUnits = this.showClosedUnitsFormControl?.value;
     const workoutPeriod = this.workoutPeriodFormControl?.value;
-    this.filteredResults = this.filterUnitsService.filterUnits(
-      this.unitsService.getFilteredList(),
-      showClosedUnits,
-      workoutPeriod
-    );
-    this.unitsService.setFilteredList(this.filteredResults)
-    this.submitEvent.emit(true);
+    this.unitsService.getAll().subscribe((data) => {
+      this.filteredResults = this.filterUnitsService.filterUnits(
+         data,
+         showClosedUnits,
+         workoutPeriod
+       );
+       this.unitsService.setFilteredList(this.filteredResults)
+       this.submitEvent.emit(true);
+    })
   }
 
   // -----------------------------------------------------------------------------------------------------
