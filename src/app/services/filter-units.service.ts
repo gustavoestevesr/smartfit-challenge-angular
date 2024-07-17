@@ -10,24 +10,26 @@ export class FilterUnitsService {
   filterUnits(
     listOfUnits: Location[],
     showClosed: boolean,
-    workoutPeriod: string,
+    workoutPeriod: string
   ) {
     let filteredList: Location[] = listOfUnits;
-    const { openHour: openHourFilter, closeHour: closeHourFilter } = this.extractOpenCloseHour(workoutPeriod);
+    const { openHour: openHourFilter, closeHour: closeHourFilter } =
+      this.extractOpenCloseHour(workoutPeriod);
 
     // Filter based on whether units should be shown if they are closed or not
     if (!showClosed) {
-      filteredList = filteredList.filter((unit: Location) => {
-        return unit.opened && unit.opened === true;
-      });
+      filteredList = filteredList.filter((unit: Location) => unit.opened);
     }
 
+    // Further filter units based on workout period hours
     if (openHourFilter && closeHourFilter) {
       filteredList = filteredList.filter((unit: Location) => {
         if (unit.schedules) {
           return unit.schedules.some((schedule: Schedule) => {
-            if (schedule.hour && schedule.hour.toString() !== 'Fechada') {
-              const { openHour, closeHour } = this.extractOpenCloseHour(schedule.hour);
+            if (schedule.hour && !schedule.hour.includes('Fechada')) {
+              const { openHour, closeHour } = this.extractOpenCloseHour(
+                schedule.hour
+              );
               return openHourFilter <= openHour && closeHourFilter >= closeHour;
             }
             return false;
@@ -36,6 +38,7 @@ export class FilterUnitsService {
         return false;
       });
     }
+
     return filteredList;
   }
 
