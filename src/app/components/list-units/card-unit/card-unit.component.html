@@ -50,7 +50,7 @@
     </div>
   </ul>
   <ul>
-    @for (schedule of unit.schedules; track schedule) {
+    @for (schedule of unit.schedules; track $index) {
     <div class="info-box">
       <b>{{ schedule.weekdays }}</b>
       {{ schedule.hour }}
