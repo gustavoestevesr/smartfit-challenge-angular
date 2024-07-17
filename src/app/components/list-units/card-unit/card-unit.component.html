@@ -3,35 +3,44 @@
     {{ unit.opened ? "Aberto" : "Fechado" }}
   </span>
   <h3>{{ unit.title }}</h3>
-  <ng-container *ngIf="unit.content; else noAddress">
-    <p [innerHTML]="sanitizedContent"></p>
-  </ng-container>
-  <ng-template #noAddress>
-    <p>Endereço não informado ...</p>
-  </ng-template>
+  <p [innerHTML]="sanitizedContent"></p>
   <div class="divider"></div>
   <ul>
     <div class="icons-box">
       <img
         *ngIf="unit.mask"
-        [title]="unit.mask ? 'Obrigatório' : 'Não obrigatório'"
+        [title]="
+          unit.mask ? translateTooltip(unit.mask) : translateTooltip(unit.mask)
+        "
         [src]="'../../../../assets/images/icons/' + unit.mask + '-mask.png'"
       />
       <img
         *ngIf="unit.towel"
-        [title]="unit.towel ? 'Obrigatório' : 'Não obrigatório'"
+        [title]="
+          unit.towel
+            ? translateTooltip(unit.towel)
+            : translateTooltip(unit.towel)
+        "
         [src]="'../../../../assets/images/icons/' + unit.towel + '-towel.png'"
       />
       <img
         *ngIf="unit.fountain"
-        [title]="unit.towel ? 'Obrigatório' : 'Não obrigatório'"
+        [title]="
+          unit.fountain
+            ? translateTooltip(unit.fountain)
+            : translateTooltip(unit.fountain)
+        "
         [src]="
           '../../../../assets/images/icons/' + unit.fountain + '-fountain.png'
         "
       />
       <img
         *ngIf="unit.locker_room"
-        [title]="unit.towel ? 'Obrigatório' : 'Não obrigatório'"
+        [title]="
+          unit.locker_room
+            ? translateTooltip(unit.locker_room)
+            : translateTooltip(unit.locker_room)
+        "
         [src]="
           '../../../../assets/images/icons/' +
           unit.locker_room +
