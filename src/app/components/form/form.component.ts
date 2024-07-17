@@ -1,14 +1,13 @@
-import { FilterUnitsService } from './../../services/filter-units.service';
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { map, take } from 'rxjs';
-import { Location, UnitsResponse } from '../../models/units-response.model';
+import { Location } from '../../models/units-response.model';
 import { UnitsService } from '../../services/units.service';
+import { FilterUnitsService } from './../../services/filter-units.service';
 
 @Component({
   selector: 'app-form',
@@ -85,6 +84,7 @@ export class FormComponent {
       showClosedUnits,
       workoutPeriod
     );
+    this.unitsService.setFilteredList(this.filteredResults)
     this.submitEvent.emit(true);
   }
 
