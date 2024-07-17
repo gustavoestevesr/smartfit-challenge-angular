@@ -65,6 +65,7 @@ export class FormComponent {
       this.workoutPeriodForm[0].valueBack
     );
     this.filteredResults = [];
+    this.unitsService.setFilteredList(this.filteredResults);
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -79,15 +80,15 @@ export class FormComponent {
   onSubmit() {
     const showClosedUnits = this.showClosedUnitsFormControl?.value;
     const workoutPeriod = this.workoutPeriodFormControl?.value;
-    this.unitsService.getAll().subscribe((data) => {
+    this.unitsService.getAll().subscribe((data: Location[]) => {
       this.filteredResults = this.filterUnitsService.filterUnits(
-         data,
-         showClosedUnits,
-         workoutPeriod
-       );
-       this.unitsService.setFilteredList(this.filteredResults)
-       this.submitEvent.emit(true);
-    })
+        data,
+        showClosedUnits,
+        workoutPeriod
+      );
+      this.unitsService.setFilteredList(this.filteredResults);
+      this.submitEvent.emit(true);
+    });
   }
 
   // -----------------------------------------------------------------------------------------------------
