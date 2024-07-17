@@ -1,9 +1,19 @@
 <div class="app-container">
   <app-header></app-header>
-  <app-form (submitEvent)="onSubmitEvent()" (clearEvent)="onClearEvent()"></app-form>
+  <app-form
+    (submitEvent)="onSubmitEvent()"
+    (clearEvent)="onClearEvent()"
+  ></app-form>
   <app-legend></app-legend>
   <ng-container *ngIf="showList$ | async">
-    <app-list-units [listOfUnits]="listOfUnits"></app-list-units>
+    <ng-container *ngIf="listOfUnits.length; else noUnits">
+      <app-list-units [listOfUnits]="listOfUnits"></app-list-units>
+    </ng-container>
+    <ng-template #noUnits>
+      <span class="text-center">
+        Nenhuma informação encontrada...</span
+      ></ng-template
+    >
   </ng-container>
   <app-footer></app-footer>
 </div>
