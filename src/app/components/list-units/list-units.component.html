@@ -1,0 +1,9 @@
+<div class="container">
+  <ul class="card-list">
+    @for (unit of listOfUnits; track $index) {
+      <li>
+        <app-card-unit [unit]="unit"></app-card-unit>
+      </li>
+    }
+  </ul>
+</div>

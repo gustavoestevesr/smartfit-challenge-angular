@@ -1,0 +1,12 @@
+.card-list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 auto;
+
+  li {
+    list-style: none;
+  }
+}
