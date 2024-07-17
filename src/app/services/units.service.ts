@@ -1,24 +1,40 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
-import { UnitResponse } from '../models/units-response.model';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
+import { Location, UnitsResponse } from '../models/units-response.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UnitsService {
-  private unitsCache$ = new BehaviorSubject<UnitResponse | null>(null);
+  private allUnitsSubject$: BehaviorSubject<Location[]> = new BehaviorSubject<Location[]>([]);
+  private allUnits$: Observable<Location[]> = this.allUnitsSubject$.asObservable();
+  private filteredUnits: Location[] = [];
 
-  http = inject(HttpClient);
+  constructor(private http: HttpClient) {
+    this.loadUnits();
+  }
 
-  getAll(): Observable<UnitResponse> {
-    if (this.unitsCache$.getValue() !== null) {
-      return this.unitsCache$ as Observable<UnitResponse>;
+  private async loadUnits() {
+    try {
+      const data: UnitsResponse = await firstValueFrom(this.http.get<UnitsResponse>(environment.apiURL));
+      this.allUnitsSubject$.next(data.locations);
+      this.filteredUnits = data.locations;
+    } catch (error) {
+      console.error('Failed to load units:', error);
     }
-    return this.http.get<UnitResponse>(environment.apiURL).pipe(
-      tap((data: UnitResponse) => this.unitsCache$.next(data)),
-      switchMap(() => this.unitsCache$ as Observable<UnitResponse>)
-    );
+  }
+
+  getAll(): Observable<Location[]> {
+    return this.allUnits$;
+  }
+
+  setFilteredList(newValue: Location[]) {
+    this.filteredUnits = newValue;
+  }
+
+  getFilteredList(): Location[] {
+    return this.filteredUnits;
   }
 }
