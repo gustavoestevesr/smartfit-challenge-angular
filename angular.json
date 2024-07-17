@@ -31,8 +31,8 @@
               },
               {
                 "glob": "**/*",
-                "input": "src/assets/fonts/Gotham",
-                "output": "/assets/fonts/Gotham/"
+                "input": "src/assets/fonts/gotham",
+                "output": "/assets/fonts/gotham/"
               }
             ],
             "styles": ["src/styles.scss"],
