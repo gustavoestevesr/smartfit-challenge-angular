@@ -3,7 +3,7 @@
       <div class="form-icon"><figure><img src="../../../assets/images/icons/icon-hour.png" alt=""></figure>Horário</div>
       <h3>Qual período quer treinar?</h3>
 
-      @for (item of workoutPeriod; track item) {
+      @for (item of workoutPeriodForm; track $index) {
         <div class="radio-wrapper">
           <input type="radio" name="workoutPeriod" [value]="item.valueBack" formControlName="workoutPeriod">
           <label [for]="item.key">{{ item.key }}</label>

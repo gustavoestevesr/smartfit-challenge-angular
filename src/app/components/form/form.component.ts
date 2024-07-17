@@ -1,9 +1,13 @@
+import { FilterUnitsService } from './../../services/filter-units.service';
 import { Component, EventEmitter, inject, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { take } from 'rxjs';
 import {
-  Location
-} from '../../models/units-response.model';
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { map, take } from 'rxjs';
+import { Location, UnitsResponse } from '../../models/units-response.model';
 import { UnitsService } from '../../services/units.service';
 
 @Component({
@@ -15,8 +19,7 @@ import { UnitsService } from '../../services/units.service';
 })
 export class FormComponent {
   formGroup!: FormGroup;
-  readonly weekDays = ['Dom.', 'Seg.', 'Ter.', 'Qua.', 'Qui.', 'Sex.', 'Sáb.'];
-  readonly workoutPeriod = [
+  readonly workoutPeriodForm = [
     {
       key: 'Manhã',
       valueFront: '06:00 às 12:00',
@@ -33,77 +36,67 @@ export class FormComponent {
       valueBack: '18h às 23h',
     },
   ];
-  results: Location[] = [];
   filteredResults: Location[] = [];
 
   @Output() submitEvent = new EventEmitter<boolean>();
   @Output() clearEvent = new EventEmitter<boolean>();
 
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly unitsService = inject(UnitsService);
+  constructor(
+    private formBuilder: FormBuilder,
+    private unitsService: UnitsService,
+    private filterUnitsService: FilterUnitsService
+  ) {
+    this.createForm();
+  }
 
-  constructor() {
+  // -----------------------------------------------------------------------------------------------------
+  // @ Métodos Privados
+  // -----------------------------------------------------------------------------------------------------
+
+  private createForm() {
     this.formGroup = this.formBuilder.group({
-      workoutPeriod: this.workoutPeriod[0].valueBack,
+      workoutPeriod: this.workoutPeriodForm[0].valueBack,
       showClosedUnits: false,
     });
   }
 
-  extractOpenCloseHour(workoutPeriod: string){
-    const workoutPeriodSplitted = workoutPeriod.replaceAll('h', '').split(' ');
-    const openHour = Number(workoutPeriodSplitted[0]);
-    const closeHour = Number(workoutPeriodSplitted[2]);
-    return { openHour, closeHour };
+  private resetForm() {
+    this.showClosedUnitsFormControl?.setValue(false);
+    this.workoutPeriodFormControl?.setValue(
+      this.workoutPeriodForm[0].valueBack
+    );
+    this.filteredResults = [];
   }
 
-  filterUnits(opened: boolean, workoutPeriod: string) {
-    const weekDay = this.weekDays[new Date().getDay()];
-    const { openHour, closeHour } = this.extractOpenCloseHour(workoutPeriod);
-
-    console.log({
-      opened,
-      weekDay,
-      openHour,
-      closeHour,
-    });
-
-    this.unitsService
-      .getAll()
-      .pipe(
-        take(1),
-        /*map((data: UnitsResponse) => {
-          if (data.locations) {
-            return data.locations.filter((location: Location) => {
-              if (location.schedules) {
-                return location.schedules.filter((schedule: Schedule) => {
-                  if (schedule.hour !== 'Fechada') {
-                    return schedule.
-                  }
-                });
-              }
-              return false;
-            });
-          }
-          return [];
-        })*/
-      )
-      .subscribe((data: Location[]) => {
-        this.filteredResults = data;
-      });
-  }
+  // -----------------------------------------------------------------------------------------------------
+  // @ Métodos Públicos
+  // -----------------------------------------------------------------------------------------------------
 
   onClear() {
-    this.formGroup.get('workoutPeriod')?.setValue(this.workoutPeriod[0].valueBack);
-    this.formGroup.get('showClosedUnits')?.setValue(false);
-
-    this.filteredResults = [];
+    this.resetForm();
     this.clearEvent.emit(true);
   }
 
   onSubmit() {
-    const opened = this.formGroup.get('showClosedUnits')?.value;
-    const workoutPeriodForm = this.formGroup.get('workoutPeriod')?.value;
-    this.filterUnits(opened, workoutPeriodForm);
+    const showClosedUnits = this.showClosedUnitsFormControl?.value;
+    const workoutPeriod = this.workoutPeriodFormControl?.value;
+    this.filteredResults = this.filterUnitsService.filterUnits(
+      this.unitsService.getFilteredList(),
+      showClosedUnits,
+      workoutPeriod
+    );
     this.submitEvent.emit(true);
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Getters
+  // -----------------------------------------------------------------------------------------------------
+
+  get showClosedUnitsFormControl() {
+    return this.formGroup?.get('showClosedUnits') as FormControl;
+  }
+
+  get workoutPeriodFormControl() {
+    return this.formGroup?.get('workoutPeriod') as FormControl;
   }
 }
